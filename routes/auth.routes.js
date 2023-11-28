@@ -38,13 +38,4 @@ router.post(
 router.get('/renew', validateJWT, renewUser)
 
 
-// This methos utilize a promise and handle the response here
-// router.get('/renew', async (req, res) => {
-//   const {user} = req.body
-//   const data = await renewToken(user)
-//   res.json(data)
-// })
-
 export const authRouter = router
-
-// export default router

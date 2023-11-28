@@ -11,8 +11,10 @@ import { validateEvent, authorizationToEditEvent } from '../middlewares/validate
 
 export const eventsRouter = Router()
 
+// Public Routes:
 eventsRouter.get('/', getEvents)
 
+// Private Routes:
 // Middleware use to all events routes below here
 eventsRouter.use(validateJWT)
 

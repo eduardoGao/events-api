@@ -25,9 +25,11 @@ export const getEventsByUser = async (req, res) => {
   try {
 
     const events = await Event.find({ user_id: uid }).populate('user_id', 'name').populate('assistants', 'name')
+    const length = events.length
 
     res.status(200).json({
       ok: true,
+      length,
       events
     })
     
@@ -44,9 +46,11 @@ export const getEventsSubs = async (req, res) => {
   const { uid } = req
   try {
     const events = await Event.find({ assistants: uid }).populate('user_id', 'name').populate('assistants', 'name')
+    const length = await Event.count({ assistants: uid })
     
     return res.status(200).json({
       ok: true,
+      length,
       events
     })
   } catch (error) {
@@ -113,7 +117,17 @@ export const updateEvent = async (req, res) => {
 
   const { uid } = req
 
-  try {  
+  
+  try {
+    const event = getEventById(id)
+  
+    if(!event) {
+      return res.status(404).json({
+        ok: false,
+        message: 'Event not found'
+      })
+    }
+
     const newEvent = {
       ...req.body,
       user_id: uid
